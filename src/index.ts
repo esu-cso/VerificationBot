@@ -25,7 +25,7 @@ const client = new Discord.Client({
 
 
 // runs when the bot is started
-client.on("ready", () => {
+client.on("clientReady", () => {
     console.log("Bot is ready :O");
 });
 
