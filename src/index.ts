@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import * as dotenv from "dotenv";
 import { slashRegister } from "./slashRegistry";
-import { codeButtonSubmit, codeModalSubmit, modalSubmit, sendVerifyModal } from "./verify";
+import { } from "./verify";
 import connectToDatabase from "./mongo";
 import { ServerOpeningEvent } from "mongodb";
 

@@ -13,40 +13,47 @@ const transporter = nodemailer.createTransport({
 
 let code = "";
 
-export function sendVerifyModal(interaction: Discord.ButtonInteraction) {
-    const modal = new Discord.ModalBuilder()
-        .setCustomId("verifyModal")
-        .setTitle("Verify!");
+class Verify {
+    public code = "";
+    constructor() {
 
-    const firstNameInput = new Discord.TextInputBuilder()
-        .setCustomId('firstNameInput')
-        .setLabel("First Name: ")
-        .setPlaceholder("John")
-        .setRequired(true)
-        .setStyle(Discord.TextInputStyle.Short);
+    }
+    public sendVerifyModal(interaction: Discord.ButtonInteraction) {
+        const modal = new Discord.ModalBuilder()
+            .setCustomId("verifyModal");
+            .setTitle("Verify!");
 
-    const lastNameInput = new Discord.TextInputBuilder()
-        .setCustomId('lastNameInput')
-        .setLabel("Last Name: ")
-        .setPlaceholder("Doe")
-        .setRequired(true)
-        .setStyle(Discord.TextInputStyle.Short);
+        const firstNameInput = new Discord.TextInputBuilder()
+            .setCustomId('firstNameInput')
+            .setLabel("First Name: ")
+            .setPlaceholder("John")
+            .setRequired(true)
+            .setStyle(Discord.TextInputStyle.Short);
 
-    const emailInput = new Discord.TextInputBuilder()
-        .setCustomId("emailInput")
-        .setLabel("ESU Email")
-        .setPlaceholder("jdoe@live.esu.edu")
-        .setRequired(true)
-        .setStyle(Discord.TextInputStyle.Short);
+        const lastNameInput = new Discord.TextInputBuilder()
+            .setCustomId('lastNameInput')
+            .setLabel("Last Name: ")
+            .setPlaceholder("Doe")
+            .setRequired(true)
+            .setStyle(Discord.TextInputStyle.Short);
 
-    const firstRow = new Discord.ActionRowBuilder<Discord.TextInputBuilder>().addComponents(firstNameInput);
-    const secondRow = new Discord.ActionRowBuilder<Discord.TextInputBuilder>().addComponents(lastNameInput);
-    const thirdRow = new Discord.ActionRowBuilder<Discord.TextInputBuilder>().addComponents(emailInput);
+        const emailInput = new Discord.TextInputBuilder()
+            .setCustomId("emailInput")
+            .setLabel("ESU Email")
+            .setPlaceholder("jdoe@live.esu.edu")
+            .setRequired(true)
+            .setStyle(Discord.TextInputStyle.Short);
 
-    modal.addComponents(firstRow, secondRow, thirdRow);
+        const firstRow = new Discord.ActionRowBuilder<Discord.TextInputBuilder>().addComponents(firstNameInput);
+        const secondRow = new Discord.ActionRowBuilder<Discord.TextInputBuilder>().addComponents(lastNameInput);
+        const thirdRow = new Discord.ActionRowBuilder<Discord.TextInputBuilder>().addComponents(emailInput);
 
-    interaction.showModal(modal);
+        modal.addComponents(firstRow, secondRow, thirdRow);
+
+        interaction.showModal(modal);
+    }
 }
+
 
 export async function modalSubmit(interaction: Discord.ModalSubmitInteraction) {
 
