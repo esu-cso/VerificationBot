@@ -164,17 +164,21 @@ client.on("interactionCreate", async (interaction) => {
         }
         if (interaction.customId === "codeButton") {
             const verify = verifyMap.get(interaction.user)
+            if (!verify) return;
 
             verify.codeButtonSubmit(interaction);
         }
     } else if (interaction.isModalSubmit()) {
         if (interaction.customId === "verifyModal") {
             const verify = verifyMap.get(interaction.user)
+            if (!verify) return;
 
             verify.modalSubmit(interaction);
         }
         if (interaction.customId === "codeModal") {
             const verify = verifyMap.get(interaction.user)
+            if (!verify) return;
+
             verify.codeModalSubmit(interaction);
         }
     }
