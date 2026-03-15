@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import * as dotenv from "dotenv";
 import { slashRegister } from "./slashRegistry";
-import { codeButtonSubmit, codeModalSubmit, modalSubmit, sendVerifyModal } from "./verify";
+import { Verify } from "./verify";
 import connectToDatabase from "./mongo";
 import { ServerOpeningEvent } from "mongodb";
 
@@ -34,6 +34,9 @@ client.on("clientReady", () => {
 client.on("guildCreate", (guild) => {
     slashRegister(guild.id);
 });
+
+// used for storing all active verify instances
+const verifyMap: Map<Discord.User, Verify> = new Map<Discord.User, Verify>()
 
 // bot code here!
 client.on("interactionCreate", async (interaction) => {
@@ -154,17 +157,29 @@ client.on("interactionCreate", async (interaction) => {
         }
     } else if (interaction.isButton()) {
         if (interaction.customId === "verifyButton") {
-            sendVerifyModal(interaction);
+            const verify = new Verify(interaction.user)
+            verifyMap.set(interaction.user, verify)
+
+            verify.sendVerifyModal(interaction);
         }
         if (interaction.customId === "codeButton") {
-            codeButtonSubmit(interaction);
+            const verify = verifyMap.get(interaction.user)
+            if (!verify) return;
+
+            verify.codeButtonSubmit(interaction);
         }
     } else if (interaction.isModalSubmit()) {
         if (interaction.customId === "verifyModal") {
-            modalSubmit(interaction);
+            const verify = verifyMap.get(interaction.user)
+            if (!verify) return;
+
+            verify.modalSubmit(interaction);
         }
         if (interaction.customId === "codeModal") {
-            codeModalSubmit(interaction);
+            const verify = verifyMap.get(interaction.user)
+            if (!verify) return;
+
+            verify.codeModalSubmit(interaction);
         }
     }
 });
